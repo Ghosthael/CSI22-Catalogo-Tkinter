@@ -1,0 +1,76 @@
+from Banco import Banco
+
+
+class prestador(object):
+
+    def __init__(self, id=0, nome="", cpf_cnpj="", data_nascimento="", rua="", numero="", complemento="", bairro="", cidade="", uf="", cep=""):
+        self.info = {}
+        self.id = id
+        self.nome = nome
+        self.cpf_cnpj = cpf_cnpj
+        self.data_nascimento = data_nascimento
+        self.rua = rua
+        self.numero = numero
+        self.complemento = complemento
+        self.bairro = bairro
+        self.cidade = cidade
+        self.uf = uf
+        self.cep = cep
+
+    def insert_prestador(self):
+        banco_obj = Banco()
+        try:
+            c = banco_obj.conexao.cursor()
+            c.execute('''insert into prestadores (id, nome, cpf_cnpj, data_nascimento, rua, numero, complemento, bairro, cidade, uf, cep) 
+                       value (?,?,?,?,?,?,?,?,?,?)''', self)
+            banco_obj.conexao.commit()
+            c.close()
+            return "prestador cadastrada com sucesso!"
+        except:
+            return "ocorreu um erro no cadastro do prestador"
+
+    @property
+    def update_prestador(self):
+        banco_obj = Banco()
+        try:
+            c = banco_obj.conexao.cursor()
+            c.execute('''update prestadores set (id, nome, cpf_cnpj, data_nascimento, rua, numero, complemento, bairro, cidade, uf, cep) 
+                       value (?,?,?,?,?,?,?,?,?,?)''', self)
+            banco_obj.conexao.commit()
+            c.close()
+            return "prestador atualizada com sucesso!"
+        except:
+            return "ocorreu um erro na alteração do cadastro do prestador"
+
+    @property
+    def delete_prestador(self):
+        banco_obj = Banco()
+        try:
+            c = banco_obj.conexao.cursor()
+            c.execute("delete from prestadores where id = " + self.id + " ")
+            banco_obj.conexao.commit()
+            c.close()
+            return "cadastro de prestador excluída com sucesso!"
+        except:
+            return "ocorreu um erro na exclusão do prestador"
+
+    def select_prestador(self, cd_musica):
+        banco_obj = Banco()
+        try:
+            c = banco_obj.conexao.cursor()
+            c.execute("select * from prestadores where id = " + self.id + "  ")
+            for linha in c:
+                self.nome = linha[0]
+                self.cpf_cnpj = linha[1]
+                self.data_nascimento = linha[2]
+                self.rua = linha[3]
+                self.numero = linha[4]
+                self.complemento = linha[5]
+                self.bairro = linha[6]
+                self.cidade = linha[7]
+                self.uf = linha[8]
+                self.cep = linha[9]
+            c.close()
+            return "busca feita com sucesso!"
+        except:
+            return "ocorreu um erro na busca do prestador"
