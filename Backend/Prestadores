@@ -3,7 +3,7 @@ from Banco import Banco
 
 class prestador(object):
 
-    def __init__(self, id=0, nome="", cpf_cnpj="", data_nascimento="", rua="", numero="", complemento="", bairro="", cidade="", uf="", cep=""):
+    def __init__(self, id=0, nome="", cpf_cnpj="", data_nascimento="", rua="", numero="", complemento="", bairro="", cidade="", uf="", cep="",contato=""):
         self.info = {}
         self.id = id
         self.nome = nome
@@ -16,6 +16,7 @@ class prestador(object):
         self.cidade = cidade
         self.uf = uf
         self.cep = cep
+        self.contato = contato
 
     def insert_prestador(self):
         banco_obj = Banco()
