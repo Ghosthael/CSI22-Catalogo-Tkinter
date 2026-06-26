@@ -2,8 +2,8 @@
 import sqlite3
 
 
-class banco:
-
+class Banco:
+    
     def __init__(self):
         self.conexao = sqlite3.connect('prestadores.db')
         self.create_table()

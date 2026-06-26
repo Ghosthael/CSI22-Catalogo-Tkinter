@@ -9,38 +9,56 @@ class GUI(tk.Tk):
         # Herdar os inicializadores da classe tk.Tk
         super().__init__()
 
-        # Definir geometria e configurações básicas
-        self.title("Prestadores de Serviços")   # Titulo da janela
-        self.geometry(f"{width}x{height}")    # Tamanho da janela principal
-        self.configure(padx=20,pady=20,bg='lightyellow')
-        
-        # Instanciar tamanhos
+        # Guardar atributos de tamanho:
         self.width = width
         self.height = height
 
+        # Definir geometria e configurações básicas
+        self.title("Prestadores de Serviços")   # Titulo da janela
+        self.geometry(f"{width}x{height}")    # Tamanho da janela principal
+        self.configure(padx=20,pady=20)
+
+        # Chama o método de criar o frame principal:
+        self.Container_Principal()
+    
         # Instanciar o frame de Cadastro
-        self.cadastro = Frame_Cadastro_Prestador(self)
+        self.cadastro = Frame_Cadastro_Prestador(self.container)
 
         # Instanciar Frame do Menu principal
-        self.menu_princial = Frame_Menu_Principal(self)
+        self.menu_princial = Frame_Menu_Principal(self.container)
 
     def Abrir_Frame_Cadastro(self):
         '''Função de abrir a página de cadastro'''
         # Chamar o método de pack do cadastro
         self.cadastro.Colocar_Frame_Cadastro()
-       
+
     def Abrir_Menu_Principal(self):
         '''Função de abrir a página de menu_principal'''
         self.menu_princial.pack()
+    
+    def Container_Principal(self):
+        '''Container dos demais frames, páginas da aplicação'''
+        
+        # Instanciar o container dos frames, dado que referência absoluta em relação ao root é instável
+        self.container = tk.Frame(self,width=self.width,height=self.height,bg='lightyellow')
+        
+        # Tambem guardar os atributos de tamanho
+        self.container.width = self.width
+        self.container.height = self.height
+
+        # Colocar o frame, permitindo que expanda
+        self.container.pack(expand=True)
+
+        # Permitir física de container
+        self.container.grid_rowconfigure(0,weight=1)
+        self.container.rowconfigure(0,weight=1)
+
 
 class Frame_Menu_Principal(tk.Frame):
     def __init__(self,pai):
         '''Inicializador do Frame do Menu_Principal'''
         # Herdar inicialização do objeto tk.frame e já o configura
         super().__init__(master=pai,bg='lightblue',width=pai.width,height=pai.height)
-
-        # Configurações do Menu Principal
-        self.configure(width=800,height=700)
 
         # Colocar novo atributo pai:
         self.pai = pai
@@ -59,7 +77,7 @@ class Frame_Menu_Principal(tk.Frame):
         self.Colocar_Butoes()
 
         # Colocar ele em segundo plano
-        self.place(x=0,y=0)
+        self.grid(row=0,column=0,sticky="nsew")
         self.pack_propagate(False)
 
     def Colocar_Butoes(self):
@@ -109,5 +127,9 @@ class Frame_Cadastro_Prestador(tk.Frame):
         # Só o coloca acima da tela
         self.tkraise()
 
+    def Colocar_Entradas_Dados(self):
+        '''Função de guardar os dados de cadastro de novo prestador'''
+        
 
+        # 
 
