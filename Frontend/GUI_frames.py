@@ -12,11 +12,13 @@ class GUI(tk.Tk):
         # Guardar atributos de tamanho:
         self.width = width
         self.height = height
+        self.rowconfigure(0,weight=1)
+        self.columnconfigure(0,weight=1)
 
         # Definir geometria e configurações básicas
         self.title("Prestadores de Serviços")   # Titulo da janela
         self.geometry(f"{width}x{height}")    # Tamanho da janela principal
-        self.configure(padx=20,pady=20)
+        self.configure(padx=50,pady=50)
 
         # Chama o método de criar o frame principal:
         self.Container_Principal()
@@ -54,20 +56,18 @@ class GUI(tk.Tk):
         self.container.height = self.height
 
         # Permitir física de container
-        self.container.grid_rowconfigure(0,weight=1)
+        self.container.columnconfigure(0,weight=1)
         self.container.rowconfigure(0,weight=1)
 
         # Colocar o frame, permitindo que expanda
-        self.container.pack(expand=True)
+        self.container.grid(row=0,column=0,sticky="nsew")
 
 class Frame_Menu_Principal(tk.Frame):
     def __init__(self,gui_root):
         '''Inicializador do Frame do Menu_Principal'''
         # Herdar inicialização do objeto tk.frame e já o configura
         super().__init__(master=gui_root.container,
-                         bg='lightyellow',
-                         width=gui_root.width,
-                         height=gui_root.height)
+                         bg='lightyellow')
 
         # Colocar novo atributo gui_root:
         self.gui_root = gui_root
@@ -87,27 +87,35 @@ class Frame_Menu_Principal(tk.Frame):
 
         # Colocar ele em segundo plano
         self.grid(row=0,column=0,sticky="nsew")
-        self.grid_propagate(True)
+
+        
 
     def Colocar_Butoes(self):
         '''Método de Criação dos Butões de Cadastro, Modificação, Consulta e Deleção do Menu Princial'''
         
+        # Criagem de Frame centralizador
+        frame_botoes = tk.Frame(self)
+
         # Definição dos butões
-        button_Busca = tk.Button(self,text="Busca",command=lambda:GUI.Abrir_Frame_Busca(self.gui_root),font=("Helvetica", 20), width=15, height=1)
-        button_Cadastro = tk.Button(self,text="Cadastro",command=lambda:GUI.Abrir_Frame_Cadastro(self.gui_root),font=("Helvetica", 20), width=15, height=1)
+        button_Busca = tk.Button(frame_botoes,text="Busca",command=lambda:GUI.Abrir_Frame_Busca(self.gui_root),font=("Helvetica", 20), width=15, height=1)
+        button_Cadastro = tk.Button(frame_botoes,text="Cadastro",command=lambda:GUI.Abrir_Frame_Cadastro(self.gui_root),font=("Helvetica", 20), width=15, height=1)
         
         # Posicionamento dos butões
         button_Cadastro.pack()
         button_Busca.pack()
-        
+
+        # Posicionamento do frame
+        frame_botoes.place(relx=0.5,rely=0.5,anchor="center")
 
 class Frame_Cadastro_Prestador(tk.Frame):
     '''Classe do frame de cadastro de prestadores'''
     def __init__(self,gui_root):
         '''Inicia o Frame de Cadastro de prestadores'''
-        super().__init__(master=gui_root.container,width=gui_root.width,height=gui_root.height,bg='lightblue')
+        super().__init__(master=gui_root.container,bg='lightblue')
         
-        # Coloca o nome da página chamada
+        # Coloca o atributo do gui
+        self.gui_root = gui_root
+
         # Colocar título do GUI
         tk.Label(self,
         text="Cadastro de Prestador",
@@ -115,22 +123,38 @@ class Frame_Cadastro_Prestador(tk.Frame):
         font=("Verdana",20)
         ).pack()
 
+        # Colocar Botão de Voltar
+        self.Botao_Voltar()
+
         # Chama as funções de Criação de preenchimento dos dados
         
         # Coloca o Frame em segundo plano também
         self.grid(row=0,column=0,sticky="nsew")
-        self.pack_propagate(True)
 
     def Colocar_Entradas_Dados(self):
         '''Função de guardar os dados de cadastro de novo prestador'''
         # Funções de entradas, que guardam uma lista das entradas do usuário
 
+    def Botao_Voltar(self):
+        '''Função de colocar botão de retorno ao menu principal'''
+        # Criar novo frame para posicioná-lo depois
+        botao_voltar_frame = tk.Frame(self)
+
+        # Botao
+        botao_voltar = tk.Button(botao_voltar_frame, text="Voltar",command=lambda:GUI.Abrir_Menu_Principal(self.gui_root),width=5,height=2)
+        botao_voltar.pack()
+
+        # Posicionar frame no canto da tela
+        botao_voltar_frame.place(relx=0.05,rely=0.05,anchor="nw")
+
 class Frame_Busca_Prestador(tk.Frame):
     def __init__(self,gui_root):
         '''Inicia o Frame de Cadastro de prestadores'''
-        super().__init__(master=gui_root.container,width=gui_root.width,height=gui_root.height,bg='lightgreen')
+        super().__init__(master=gui_root.container,bg='lightgreen')
         
-        # Coloca o nome da página chamada
+        # Coloca o root como atributo
+        self.gui_root = gui_root
+
         # Colocar título do GUI
         tk.Label(self,
         text="Busca de Prestador",
@@ -138,15 +162,26 @@ class Frame_Busca_Prestador(tk.Frame):
         font=("Verdana",20)
         ).pack()
 
+        # Coloca o botão de voltar ao menu principal
+        self.Botao_Voltar()
+
         # Chama as funções de Criação de preenchimento dos dados
         
-
         # Coloca o Frame em segundo plano também
         self.grid(row=0,column=0,sticky="nsew")
-        self.pack_propagate(True)
     
     def Entrada_Pesquisa(self):
         '''Instancia os widgets de entrada de dados'''
         # Entrada de argumentos:
 
+    def Botao_Voltar(self):
+        '''Função de colocar botão de retorno ao menu principal'''
+        # Criar novo frame para posicioná-lo depois
+        botao_voltar_frame = tk.Frame(self)
 
+        # Botao
+        botao_voltar = tk.Button(botao_voltar_frame, text="Voltar",command=lambda:GUI.Abrir_Menu_Principal(self.gui_root),width=5,height=2)
+        botao_voltar.pack()
+
+        # Posicionar frame no canto da tela
+        botao_voltar_frame.place(relx=0.05,rely=0.05,anchor="nw")
