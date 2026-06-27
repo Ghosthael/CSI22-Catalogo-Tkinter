@@ -22,51 +22,60 @@ class GUI(tk.Tk):
         self.Container_Principal()
     
         # Instanciar o frame de Cadastro
-        self.cadastro = Frame_Cadastro_Prestador(self.container)
+        self.cadastro = Frame_Cadastro_Prestador(self)
+
+        # Instanciar o frame de Busca
+        self.busca = Frame_Busca_Prestador(self)
 
         # Instanciar Frame do Menu principal
-        self.menu_princial = Frame_Menu_Principal(self.container)
+        self.menu_princial = Frame_Menu_Principal(self)
 
     def Abrir_Frame_Cadastro(self):
         '''Função de abrir a página de cadastro'''
         # Chamar o método de pack do cadastro
-        self.cadastro.Colocar_Frame_Cadastro()
+        self.cadastro.tkraise()
 
     def Abrir_Menu_Principal(self):
         '''Função de abrir a página de menu_principal'''
-        self.menu_princial.pack()
-    
+        self.menu_princial.tkraise()
+
+    def Abrir_Frame_Busca(self):
+        '''Função de abrir a página de Busca'''
+        self.busca.tkraise()
+
     def Container_Principal(self):
         '''Container dos demais frames, páginas da aplicação'''
         
-        # Instanciar o container dos frames, dado que referência absoluta em relação ao root é instável
+        # Instanciar o container dos frames, dado que referência absoluta em relação ao gui_root é instável
         self.container = tk.Frame(self,width=self.width,height=self.height,bg='lightyellow')
         
         # Tambem guardar os atributos de tamanho
         self.container.width = self.width
         self.container.height = self.height
 
-        # Colocar o frame, permitindo que expanda
-        self.container.pack(expand=True)
-
         # Permitir física de container
         self.container.grid_rowconfigure(0,weight=1)
         self.container.rowconfigure(0,weight=1)
 
+        # Colocar o frame, permitindo que expanda
+        self.container.pack(expand=True)
 
 class Frame_Menu_Principal(tk.Frame):
-    def __init__(self,pai):
+    def __init__(self,gui_root):
         '''Inicializador do Frame do Menu_Principal'''
         # Herdar inicialização do objeto tk.frame e já o configura
-        super().__init__(master=pai,bg='lightblue',width=pai.width,height=pai.height)
+        super().__init__(master=gui_root.container,
+                         bg='lightyellow',
+                         width=gui_root.width,
+                         height=gui_root.height)
 
-        # Colocar novo atributo pai:
-        self.pai = pai
+        # Colocar novo atributo gui_root:
+        self.gui_root = gui_root
 
         # Colocar título do GUI
         gui_title = tk.Label(self,
         text="Prestadores de Serviços SJC",
-        bg="lightblue",
+        bg="lightyellow",
         font=("Verdana",20)
         )
 
@@ -78,35 +87,25 @@ class Frame_Menu_Principal(tk.Frame):
 
         # Colocar ele em segundo plano
         self.grid(row=0,column=0,sticky="nsew")
-        self.pack_propagate(False)
+        self.grid_propagate(True)
 
     def Colocar_Butoes(self):
         '''Método de Criação dos Butões de Cadastro, Modificação, Consulta e Deleção do Menu Princial'''
         
         # Definição dos butões
-        button_Cadastro = tk.Button(self,text="Cadastro",command=lambda:GUI.Abrir_Frame_Cadastro,font=("Helvetica", 20), width=15, height=1)
-        button_Busca = tk.Button(self,text="Busca",command=lambda:GUI.Abrir_Frame_Cadastro,font=("Helvetica", 20), width=15, height=1)
-        button_atualizar = tk.Button(self,text="Atualizar_Cadastro",command=lambda:GUI.Abrir_Frame_Cadastro,font=("Helvetica", 20), width=15, height=1)
-        button_delecao = tk.Button(self,text="Deleção de usuário",command=lambda:GUI.Abrir_Frame_Cadastro,font=("Helvetica", 20), width=15, height=1) 
-
+        button_Busca = tk.Button(self,text="Busca",command=lambda:GUI.Abrir_Frame_Busca(self.gui_root),font=("Helvetica", 20), width=15, height=1)
+        button_Cadastro = tk.Button(self,text="Cadastro",command=lambda:GUI.Abrir_Frame_Cadastro(self.gui_root),font=("Helvetica", 20), width=15, height=1)
+        
         # Posicionamento dos butões
         button_Cadastro.pack()
         button_Busca.pack()
-        button_atualizar.pack()
-        button_delecao.pack()
-
-    def Colocar_Menu_Principal(self):
-        '''Função de colocar o menu principal na tela'''
-          
-        # A função pack coloca ele na tela
-        self.tkraise()
-
+        
 
 class Frame_Cadastro_Prestador(tk.Frame):
     '''Classe do frame de cadastro de prestadores'''
-    def __init__(self,pai):
+    def __init__(self,gui_root):
         '''Inicia o Frame de Cadastro de prestadores'''
-        super().__init__(master=pai,width=pai.width,height=pai.height)
+        super().__init__(master=gui_root.container,width=gui_root.width,height=gui_root.height,bg='lightblue')
         
         # Coloca o nome da página chamada
         # Colocar título do GUI
@@ -118,18 +117,36 @@ class Frame_Cadastro_Prestador(tk.Frame):
 
         # Chama as funções de Criação de preenchimento dos dados
         
-        # Coloca o Frame
-        self.place(x=0,y=0)
-        self.pack_propagate(False)
-
-    def Colocar_Frame_Cadastro(self):
-        '''Função de colocar o frame cadastro na tela'''
-        # Só o coloca acima da tela
-        self.tkraise()
+        # Coloca o Frame em segundo plano também
+        self.grid(row=0,column=0,sticky="nsew")
+        self.pack_propagate(True)
 
     def Colocar_Entradas_Dados(self):
         '''Função de guardar os dados de cadastro de novo prestador'''
+        # Funções de entradas, que guardam uma lista das entradas do usuário
+
+class Frame_Busca_Prestador(tk.Frame):
+    def __init__(self,gui_root):
+        '''Inicia o Frame de Cadastro de prestadores'''
+        super().__init__(master=gui_root.container,width=gui_root.width,height=gui_root.height,bg='lightgreen')
+        
+        # Coloca o nome da página chamada
+        # Colocar título do GUI
+        tk.Label(self,
+        text="Busca de Prestador",
+        bg="lightgreen",
+        font=("Verdana",20)
+        ).pack()
+
+        # Chama as funções de Criação de preenchimento dos dados
         
 
-        # 
+        # Coloca o Frame em segundo plano também
+        self.grid(row=0,column=0,sticky="nsew")
+        self.pack_propagate(True)
+    
+    def Entrada_Pesquisa(self):
+        '''Instancia os widgets de entrada de dados'''
+        # Entrada de argumentos:
+
 
