@@ -23,7 +23,7 @@ class Cadastro(tk.Frame):
         self.Colocar_Entradas_Dados()
 
         # Acrescenta botão de Salvamento dos Dados
-        self.Salvar_Dados()
+        self.Botao_Salvamento()
 
         # Coloca o Frame em segundo plano também
         self.grid(row=0,column=0,sticky="nsew")
@@ -38,7 +38,9 @@ class Cadastro(tk.Frame):
         font_size = 20  # controla a altura visual
 
         # Criar frame para posicionar central as entradas de dados
-        self.frame_entradas = tk.Frame(self, bg="white")
+        self.frame_entradas = tk.Frame(self, 
+                                       bg='SystemButtonFace',
+                                       height=700)
 
         # Entradas de dados
         self.nome = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
@@ -78,7 +80,7 @@ class Cadastro(tk.Frame):
         self.contato.grid(row=10, column=1)
 
         # Posicionar o frame no centro da pagina
-        self.frame_entradas.place(relx=0.5,rely=0.5,anchor="center")
+        self.frame_entradas.place(relx=0.5,rely=0.5,anchor="center",height=500)
 
     def Botao_Voltar(self):
         '''Função de colocar botão de retorno ao menu principal'''
@@ -92,7 +94,26 @@ class Cadastro(tk.Frame):
         # Posicionar frame no canto da tela
         botao_voltar_frame.place(relx=0.05,rely=0.05,anchor="nw")
 
-    def Salvar_Dados(self):
+    def Botao_Salvamento(self):
+        '''Função de acrescentar botão de salvamento de dados'''
+
+        # cria novo frame, mas em relação ao frame dos dados
+        self.frame_botao_salvamento = tk.Frame(self.frame_entradas)
+
+        # Acrescenta o botão de salvamento
+        tk.Button(self.frame_botao_salvamento,
+                  text="Salvar",
+                  font=("Arial",14),
+                  width=10,
+                  height=1,
+                  command=lambda:self.Salvamento_Dados()).pack()
+
+        # Posiciona o frame no final do frame de dados
+        self.frame_botao_salvamento.place(relx=0.5,rely=0.95,anchor='s')
+
+
+    def Salvamento_Dados(self):
         '''Função de Guardar os dados no banco de dados gerado'''
         # Verifica se nenhum dado está faltando:
         #if(self.nome == ""):
+
