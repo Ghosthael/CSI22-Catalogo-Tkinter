@@ -70,8 +70,6 @@ def validar_nome(nome: str):
     # Verificações do Nome:
     if nome == "":
         return [False, "Nome não pode estar vazio."]
-    elif not nome.isalnum():
-        return [False, "Nome Não Pode Conter Números ou Caracteres especiais!"]
     elif len(nome) < 3:
         return [False, "Nome Muito Curto!"]
     return True

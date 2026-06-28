@@ -27,7 +27,6 @@ class Prestador(object):
             self.cep = cep
             self.contato = contato
 
-
     def insert_prestador(self):
         banco_obj = Banco()
         try:
@@ -65,12 +64,14 @@ class Prestador(object):
         except:
             return "ocorreu um erro na exclusão do prestador"
 
-    def select_prestador(self, cd_musica):
+    def select_prestador(self, dado):
         banco_obj = Banco()
         try:
             c = banco_obj.conexao.cursor()
-            c.execute("select * from prestadores where id = " + self.id + "  ")
-            for linha in c:
+            c.execute(f"select * from prestadores where {dado} = ?", dado)
+            linha = c.fetchone()
+
+            if linha:
                 self.nome = linha[0]
                 self.cpf_cnpj = linha[1]
                 self.data_nascimento = linha[2]
@@ -81,7 +82,14 @@ class Prestador(object):
                 self.cidade = linha[7]
                 self.uf = linha[8]
                 self.cep = linha[9]
+                self.contato = linha[10]
+                return [True,"busca feita com sucesso!",linha]
+            else:
+                return [False,"prestador não encontrado!"]
+        except Exception as e:
+            return [False,f"ocorreu o erro {e} na busca do prestador!"]
+        finally:
+            # fecha corretamente a conexão com banco de dados
             c.close()
-            return "busca feita com sucesso!"
-        except:
-            return "ocorreu um erro na busca do prestador"
+            banco_obj.conexao.close()
+
