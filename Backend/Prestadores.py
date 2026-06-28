@@ -2,21 +2,32 @@ from Backend.Banco_dados import Banco
 
 
 class Prestador(object):
+    '''Classe de Cadastramento de Prestadores de Serviços. recebe em seu inicializador os dados e possui métodos para deleção,inserção, atualização e busca no banco de dados'''
+    def __init__(self, 
+                 nome="", 
+                 cpf_cnpj="", 
+                 data_nascimento="", 
+                 rua="", 
+                 numero="", 
+                 complemento="", 
+                 bairro="", 
+                 cidade="", 
+                 uf="", 
+                 cep="", 
+                 contato=""):
+        
+            self.nome = nome
+            self.cpf_cnpj = cpf_cnpj
+            self.data_nascimento = data_nascimento
+            self.rua = rua
+            self.numero = numero
+            self.complemento = complemento
+            self.bairro = bairro
+            self.cidade = cidade
+            self.uf = uf
+            self.cep = cep
+            self.contato = contato
 
-    def __init__(self, DADOS=[]):
-        self.info = DADOS[1]
-        self.id = DADOS[2]
-        self.nome = DADOS[3]
-        self.cpf_cnpj = DADOS[4]
-        self.data_nascimento = DADOS[5]
-        self.rua = DADOS[6]
-        self.numero = DADOS[7]
-        self.complemento = DADOS[8]
-        self.bairro = DADOS[9]
-        self.cidade = DADOS[10]
-        self.uf = DADOS[11]
-        self.cep = DADOS[12]
-        self.contato = DADOS[13]
 
     def insert_prestador(self):
         banco_obj = Banco()

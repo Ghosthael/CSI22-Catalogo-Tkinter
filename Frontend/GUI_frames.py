@@ -18,7 +18,7 @@ class GUI(tk.Tk):
         # Definir geometria e configurações básicas
         self.title("Prestadores de Serviços")   # Titulo da janela
         self.geometry(f"{width}x{height}")    # Tamanho da janela principal
-        self.configure(padx=50,pady=50)
+        self.configure(padx=10,pady=10)
 
         # Chama o método de criar o frame principal:
         self.Container_Principal()
@@ -88,8 +88,6 @@ class Frame_Menu_Principal(tk.Frame):
         # Colocar ele em segundo plano
         self.grid(row=0,column=0,sticky="nsew")
 
-        
-
     def Colocar_Butoes(self):
         '''Método de Criação dos Butões de Cadastro, Modificação, Consulta e Deleção do Menu Princial'''
         
@@ -127,13 +125,62 @@ class Frame_Cadastro_Prestador(tk.Frame):
         self.Botao_Voltar()
 
         # Chama as funções de Criação de preenchimento dos dados
-        
+        self.Colocar_Entradas_Dados()
+
         # Coloca o Frame em segundo plano também
         self.grid(row=0,column=0,sticky="nsew")
 
     def Colocar_Entradas_Dados(self):
         '''Função de guardar os dados de cadastro de novo prestador'''
         # Funções de entradas, que guardam uma lista das entradas do usuário
+        # Começar lista de dados e colocar elas em posições específicas
+        # Tamanho das caixas de texto para ajuste
+        entry_width = 20
+        label_width = 20
+        font_size = 20  # controla a altura visual
+
+        # Criar frame para posicionar central as entradas de dados
+        self.frame_entradas = tk.Frame(self, bg="white")
+
+        # Entradas de dados
+        self.nome = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.cpf_cnpj = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.data_nascimento = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.rua = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.numero = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.complemento = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.bairro = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.cidade = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.uf = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.cep = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+        self.contato = tk.Entry(self.frame_entradas, width=entry_width, font=("Arial", font_size))
+
+        # Posicionando labels e os botões lado a lado:
+        tk.Label(self.frame_entradas, text="Nome", width=label_width, font=("Arial", font_size)).grid(row=0, column=0)
+        self.nome.grid(row=0, column=1)
+        tk.Label(self.frame_entradas, text="CPF/CNPJ", width=label_width, font=("Arial", font_size)).grid(row=1, column=0)
+        self.cpf_cnpj.grid(row=1, column=1)
+        tk.Label(self.frame_entradas, text="Data Nasc.", width=label_width, font=("Arial", font_size)).grid(row=2, column=0)
+        self.data_nascimento.grid(row=2, column=1)
+        tk.Label(self.frame_entradas, text="Rua", width=label_width, font=("Arial", font_size)).grid(row=3, column=0)
+        self.rua.grid(row=3, column=1)
+        tk.Label(self.frame_entradas, text="Número", width=label_width, font=("Arial", font_size)).grid(row=4, column=0)
+        self.numero.grid(row=4, column=1)
+        tk.Label(self.frame_entradas, text="Complemento", width=label_width, font=("Arial", font_size)).grid(row=5, column=0)
+        self.complemento.grid(row=5, column=1)
+        tk.Label(self.frame_entradas, text="Bairro", width=label_width, font=("Arial", font_size)).grid(row=6, column=0)
+        self.bairro.grid(row=6, column=1)
+        tk.Label(self.frame_entradas, text="Cidade", width=label_width, font=("Arial", font_size)).grid(row=7, column=0)
+        self.cidade.grid(row=7, column=1)
+        tk.Label(self.frame_entradas, text="UF", width=label_width, font=("Arial", font_size)).grid(row=8, column=0)
+        self.uf.grid(row=8, column=1)
+        tk.Label(self.frame_entradas, text="CEP", width=label_width, font=("Arial", font_size)).grid(row=9, column=0)
+        self.cep.grid(row=9, column=1)
+        tk.Label(self.frame_entradas, text="Contato", width=label_width, font=("Arial", font_size)).grid(row=10, column=0)
+        self.contato.grid(row=10, column=1)
+
+        # Posicionar o frame no centro da pagina
+        self.frame_entradas.place(relx=0.5,rely=0.5,anchor="center")
 
     def Botao_Voltar(self):
         '''Função de colocar botão de retorno ao menu principal'''

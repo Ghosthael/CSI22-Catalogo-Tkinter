@@ -1,3 +1,9 @@
+# APP de Cadastramento de Dados de Prestadores de Serviços
+# Grupo:
+# Ricardo Cardoso de Oliveira Filho
+# Leonardo Dantas 
+# Luiz Satoshi yunomae
+
 from Frontend import GUI_frames
 from Backend import Prestadores
 
