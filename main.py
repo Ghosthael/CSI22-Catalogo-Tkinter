@@ -4,11 +4,11 @@
 # Leonardo Dantas 
 # Luiz Satoshi yunomae
 
-from Frontend import GUI_frames
-from Backend import Prestadores
+from ui import gerenciador
+from db import Prestadores
 
 # Inicializa a GUI, objeto de herança tk.Tk, com instâncias de todas as janelas da aplicação
-gui = GUI_frames.GUI(800,700)
+gui = gerenciador.GUI(800,700)
 
 # Inicializa a aplicação na página principal
 gui.Abrir_Menu_Principal()

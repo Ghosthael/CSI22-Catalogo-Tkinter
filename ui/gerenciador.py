@@ -1,9 +1,9 @@
 import tkinter as tk
-from Frontend import Cadastro 
-from Frontend import Menu_Principal 
-from Frontend import Busca
-from Frontend import Delecao
-from Frontend import Atualizacao
+from ui import tela_cadastro 
+from ui import tela_menu_principal
+from ui import tela_busca
+from ui import tela_delecao
+from ui import tela_atualizacao
 
 class GUI(tk.Tk):
     '''Classe GUI, responsavel por confurar a janela principal e regular as paginas de menu principal, 
@@ -29,19 +29,19 @@ class GUI(tk.Tk):
         self.Container_Principal()
     
         # Instanciar o frame de Cadastro
-        self.cadastro = Cadastro.Pagina_Cadastro(self)
+        self.cadastro = tela_cadastro.Pagina_Cadastro(self)
 
         # Instanciar o frame de Busca
-        self.busca = Busca.Pagina_Buscar(self)
+        self.busca = tela_busca.Pagina_Buscar(self)
 
         # Instancia o frame de Atualizacao
-        self.atualizar = Atualizacao.Pagina_Atualizar(self)
+        self.atualizar = tela_atualizacao.Pagina_Atualizar(self)
 
         # Instancia o frame de deleção
-        self.deletar = Delecao.Pagina_Deletar(self)
+        self.deletar = tela_delecao.Pagina_Deletar(self)
 
         # Instanciar Frame do Menu principal
-        self.menu_princial = Menu_Principal.Menu_Principal(self)
+        self.menu_princial = tela_menu_principal.Menu_Principal(self)
 
     def Abrir_Frame_Cadastro(self):
         '''Função de abrir a página de cadastro'''

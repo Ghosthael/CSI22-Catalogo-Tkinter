@@ -1,4 +1,6 @@
 import tkinter as tk
+from core import validadores
+
 
 class Pagina_Cadastro(tk.Frame):
     '''Classe do frame de cadastro de prestadores'''
@@ -134,53 +136,44 @@ class Pagina_Cadastro(tk.Frame):
             return False
 
         # Verificações do cpf
+        cpf_cnpj = self.cpf_cnpj.get()
         if not self.cpf_cnpj.get():
             self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
                             text="Campo CPF/CNPJ é Obrigatório!",
                             width=200
                             )
             return False
-        if not len(self.cpf_cnpj.get()) == 11 or len(self.cpf_cnpj.get()) == 14:
-            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                            text="Numero Não Corresponde a CPF ou CNPJ!",
-                            width=200
-                            )
-            return False
-        if not self.cpf_cnpj.get().isdigit():
+        if not cpf_cnpj.isdigit():
             self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
                                             text="Digite Somente Numeros!",
                                             width=200
                                             )
             return False
-        # Verificação do digito verificador cpf
-        if len(self.cpf_cnpj.get()) == 11:
-            # Calculo do digito 1:
-            peso = 10   # peso da multiplicacao
-            somad1 = 0  # Soma acumada referente ao digito d1
-
-            # Soma referente ao d1
-            for i in range(1,9):
-                somad1 = int(self.cpf_cnpj.get()[i])*peso + somad1
-                peso = peso - 1
-            
-            # Digito verificador 1:
-            # calcula resto do digito por 11:
-            resto_d1 = somad1 % 11
-            # Se inferior a 2 é 0, caso contrário, é 11 - d1
-            if(resto_d1 < 2):
-                d1 = 0
-            else:
-                d1 = 11 - resto_d1
-
-            # Verificação da correspondencia:
-            if d1 != int(self.cpf_cnpj.get()[10]):
+        # Verificacao de sintaxe de cnpj e cpf:
+        if len(cpf_cnpj) ==  14:
+            if not validadores.verificar_cnpj(cnpj=cpf_cnpj):
                 self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                                            text=f"CPF inválido!Digito Verificador {d1}",
+                                            text="CNPJ inválido!",
                                             width=200
                                             )
                 return False
+        # Verificação do digito verificador cpf
+        elif len(cpf_cnpj) == 11: 
+            if not validadores.verificar_cpf(cpf=cpf_cnpj):
+                self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                                            text="CPF inválido!",
+                                            width=200
+                                            )
+                return False
+        else:
+            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                                            text="O Campo deve ter 11 ou 14 dígitos (CPF ou CNPJ)",
+                                            width=200
+                                            )
+            return False
         
-        
+        return True
+    
     def Salvamento_Dados(self):
         '''Função de Guardar os dados no banco de dados gerado'''
         # Verifica se não há nenhum dado errado:
