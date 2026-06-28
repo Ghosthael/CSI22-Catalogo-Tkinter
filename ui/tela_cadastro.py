@@ -115,72 +115,52 @@ class Pagina_Cadastro(tk.Frame):
 
         # Posiciona o frame no final do frame de dados
         self.frame_botao_salvamento.place(relx=0.5,rely=0.85,anchor='n')
-
-    def Validar_Dados(self):
-        # Limpa Mensagens Anteriores:
-        if self.erro:
-            self.mensagem_erro.destroy()
-
-        # Verificações do Nome:
-        if not self.nome.get():
-            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                            text="Campo Nome é Obrigatório!",
-                            width=200
-                            )
-            return False
-        elif len(self.nome.get()) < 3:
-            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                            text="Nome Muito Curto!",
-                            width=200
-                            )
-            return False
-
-        # Verificações do cpf
-        cpf_cnpj = self.cpf_cnpj.get()
-        if not self.cpf_cnpj.get():
-            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                            text="Campo CPF/CNPJ é Obrigatório!",
-                            width=200
-                            )
-            return False
-        if not cpf_cnpj.isdigit():
-            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                                            text="Digite Somente Numeros!",
-                                            width=200
-                                            )
-            return False
-        # Verificacao de sintaxe de cnpj e cpf:
-        if len(cpf_cnpj) ==  14:
-            if not validadores.verificar_cnpj(cnpj=cpf_cnpj):
-                self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                                            text="CNPJ inválido!",
-                                            width=200
-                                            )
-                return False
-        # Verificação do digito verificador cpf
-        elif len(cpf_cnpj) == 11: 
-            if not validadores.verificar_cpf(cpf=cpf_cnpj):
-                self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                                            text="CPF inválido!",
-                                            width=200
-                                            )
-                return False
-        else:
-            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
-                                            text="O Campo deve ter 11 ou 14 dígitos (CPF ou CNPJ)",
-                                            width=200
-                                            )
-            return False
-        
-        return True
     
     def Salvamento_Dados(self):
         '''Função de Guardar os dados no banco de dados gerado'''
-        # Verifica se não há nenhum dado errado:
-        if not self.Validar_Dados():
-            self.erro = True
-            self.mensagem_erro.pack()
-            return False
-            
+        # Verifica se não houve erro anterior e cancela:
+        if self.erro:
+            self.mensagem_erro.destroy()
+
+        # Manda os dados para serem validados: 
+        nome = self.nome.get()
+        cpf_cnpj = self.cpf_cnpj.get()
+        complemento = self.complemento.get()
+        data_nascimento = self.data_nascimento.get()
+        rua = self.rua.get()
+        numero = self.numero.get()
+        cep = self.cep.get()
+        bairro = self.bairro.get()
+        cidade = self.cidade.get()
+        uf = self.uf.get()
+        contato = self.contato.get()
+
+        # Validações
+        validacoes = [
+            validadores.validar_nome(nome),
+            validadores.validar_cpf_cnpj(cpf_cnpj),
+            validadores.validar_nascimento(data_nascimento),
+            validadores.validar_complemento(complemento),
+            validadores.validar_rua(rua),
+            validadores.validar_numero(numero),
+            validadores.validar_cep(cep),
+            validadores.validar_bairro(bairro),
+            validadores.validar_cidade(cidade),
+            validadores.validar_uf(uf),
+            validadores.validar_contato(contato),
+        ]
+
+        # Procurar algum erro:
+        for resultado in validacoes:
+            if resultado is not True:
+                [ok, mensagem_erro] = resultado
+                self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                                   text=mensagem_erro,
+                                   width=300)
+                self.erro = not ok
+                self.mensagem_erro.pack()
+                return False
+        return True
+
 
 

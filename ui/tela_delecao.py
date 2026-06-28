@@ -3,7 +3,7 @@ import tkinter as tk
 class Pagina_Deletar(tk.Frame):
     def __init__(self,gui_root):
         '''Inicia o Frame de Cadastro de prestadores'''
-        super().__init__(master=gui_root.container,bg='beige')
+        super().__init__(master=gui_root.container,bg='orange')
         
         # Coloca o root como atributo
         self.gui_root = gui_root
@@ -11,7 +11,7 @@ class Pagina_Deletar(tk.Frame):
         # Colocar título do GUI
         tk.Label(self,
         text="Deleção de Prestador",
-        bg="beige",
+        bg="orange",
         font=("Verdana",30)
         ).pack()
 
