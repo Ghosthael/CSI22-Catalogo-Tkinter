@@ -1,4 +1,4 @@
-from db import Prestadores
+from db import prestadores
 
 def Salvamento_Prestador(nome="", 
                          cpf_cnpj="", 
@@ -13,7 +13,7 @@ def Salvamento_Prestador(nome="",
                          contato=""):
     
     # Guarda os dados no objeto prestador:
-    cadastro = Prestadores.Prestador(nome=nome,
+    cadastro = prestadores.Prestador(nome=nome,
                           cpf_cnpj=cpf_cnpj,
                           rua=rua,
                           numero=numero,

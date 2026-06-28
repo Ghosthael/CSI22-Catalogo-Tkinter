@@ -1,6 +1,6 @@
 import tkinter as tk
 from core import validadores
-
+from db import salvamento
 
 class Pagina_Cadastro(tk.Frame):
     '''Classe do frame de cadastro de prestadores'''
@@ -22,7 +22,7 @@ class Pagina_Cadastro(tk.Frame):
         self.Botao_Voltar()
 
         # Instancia Mensagem de erro de cadastramento
-        self.erro = False
+        self.mensagem = [False,tk.Message()]
 
         # Chama as funções de Criação de preenchimento dos dados
         self.Colocar_Entradas_Dados()
@@ -119,8 +119,8 @@ class Pagina_Cadastro(tk.Frame):
     def Salvamento_Dados(self):
         '''Função de Guardar os dados no banco de dados gerado'''
         # Verifica se não houve erro anterior e cancela:
-        if self.erro:
-            self.mensagem_erro.destroy()
+        if self.mensagem[0]:
+            self.mensagem[1].destroy()
 
         # Manda os dados para serem validados: 
         nome = self.nome.get()
@@ -154,13 +154,57 @@ class Pagina_Cadastro(tk.Frame):
         for resultado in validacoes:
             if resultado is not True:
                 [ok, mensagem_erro] = resultado
-                self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                self.mensagem = [True, tk.Message(self.frame_botao_salvamento,
                                    text=mensagem_erro,
                                    width=300)
-                self.erro = not ok
-                self.mensagem_erro.pack()
+                ]
+                self.mensagem[1].pack()
                 return False
-        return True
+        
+        
+
+        # Dados uma vez validados, pode-se chamar função de salvamento:
+        try:
+            salvamento.Salvamento_Prestador(nome=nome,
+                                            cpf_cnpj=cpf_cnpj,
+                                            rua=rua,
+                                            numero=numero,
+                                            complemento=complemento,
+                                            bairro= bairro,
+                                            cidade=cidade,
+                                            uf=uf,
+                                            cep=cep,
+                                            contato=contato
+            )
+        except Exception:
+            self.mensagem = [True,
+             tk.Message(self.frame_botao_salvamento,
+                                   text="Houve Um Erro No Salvamento dos Dados!",
+                                   width=300)
+            ]
+            self.mensagem[1].pack()
+            return False
+        else:
+            self.mensagem = [True,
+                             tk.Message(self.frame_botao_salvamento,
+                                   text="Prestador Cadastrado Com Sucesso!",
+                                   width=300)
+            ]
+            self.mensagem[1].pack()
+
+        # Limpa os campos de dados:
+        self.nome.delete(0,tk.END)
+        self.cpf_cnpj.delete(0,tk.END)
+        self.data_nascimento.delete(0,tk.END)
+        self.rua.delete(0,tk.END)
+        self.cidade.delete(0,tk.END)
+        self.complemento.delete(0,tk.END)
+        self.numero.delete(0,tk.END)
+        self.cep.delete(0,tk.END)
+        self.contato.delete(0,tk.END)
+        self.bairro.delete(0,tk.END)
+        self.uf.delete(0,tk.END)
+
 
 
 

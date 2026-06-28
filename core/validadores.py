@@ -1,5 +1,3 @@
-from ui import tela_cadastro
-
 # Função de verificação de CPF
 def verificar_cpf(cpf=""):
     '''Dada uma string de cpf, devolve True se válido e False se não'''
@@ -72,7 +70,7 @@ def validar_nome(nome: str):
     # Verificações do Nome:
     if nome == "":
         return [False, "Nome não pode estar vazio."]
-    elif nome.isalpha():
+    elif not nome.isalnum():
         return [False, "Nome Não Pode Conter Números ou Caracteres especiais!"]
     elif len(nome) < 3:
         return [False, "Nome Muito Curto!"]

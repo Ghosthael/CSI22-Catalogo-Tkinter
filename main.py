@@ -5,7 +5,7 @@
 # Luiz Satoshi yunomae
 
 from ui import gerenciador
-from db import Prestadores
+from db import prestadores
 
 # Inicializa a GUI, objeto de herança tk.Tk, com instâncias de todas as janelas da aplicação
 gui = gerenciador.GUI(800,700)

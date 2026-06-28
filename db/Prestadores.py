@@ -1,4 +1,4 @@
-from db.Banco_dados import Banco 
+from db.banco_dados import Banco 
 
 class Prestador(object):
     '''Classe de Cadastramento de Prestadores de Serviços. recebe em seu inicializador os dados e possui métodos para deleção,inserção, atualização e busca no banco de dados'''
