@@ -14,7 +14,7 @@ class Menu_Principal(tk.Frame):
         gui_title = tk.Label(self,
         text="Prestadores de Serviços SJC",
         bg="lightyellow",
-        font=("Verdana",20)
+        font=("Verdana",30)
         )
 
         # Definir posicionamento do title
@@ -34,12 +34,35 @@ class Menu_Principal(tk.Frame):
         frame_botoes = tk.Frame(self)
 
         # Definição dos butões
-        button_Busca = tk.Button(frame_botoes,text="Busca",command=lambda:self.gui_root.Abrir_Frame_Busca(),font=("Helvetica", 20), width=15, height=1)
-        button_Cadastro = tk.Button(frame_botoes,text="Cadastro",command=lambda:self.gui_root.Abrir_Frame_Cadastro(),font=("Helvetica", 20), width=15, height=1)
-        
+        button_Busca = tk.Button(frame_botoes,
+                                 text="Busca",
+                                 command=lambda:self.gui_root.Abrir_Frame_Busca(),font=("Helvetica", 20),
+                                 width=15, 
+                                 height=1)
+        button_Cadastro = tk.Button(frame_botoes,
+                                    text="Cadastro",
+                                    command=lambda:self.gui_root.Abrir_Frame_Cadastro(),
+                                    font=("Helvetica", 20), 
+                                    width=15, 
+                                    height=1)
+        button_Atualizar = tk.Button(frame_botoes,
+                                    text="Atualizar",
+                                    command=lambda:self.gui_root.Abrir_Frame_Atualizacao(),
+                                    font=("Helvetica", 20), 
+                                    width=15, 
+                                    height=1)
+        button_Delecao = tk.Button(frame_botoes,
+                                    text="Deletar",
+                                    command=lambda:self.gui_root.Abrir_Frame_Delecao(),
+                                    font=("Helvetica", 20), 
+                                    width=15, 
+                                    height=1)
         # Posicionamento dos butões
-        button_Cadastro.pack()
         button_Busca.pack()
+        button_Cadastro.pack()
+        button_Atualizar.pack()
+        button_Delecao.pack()
+        
 
         # Posicionamento do frame
         frame_botoes.place(relx=0.5,rely=0.5,anchor="center")

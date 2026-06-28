@@ -1,9 +1,9 @@
 import tkinter as tk
 
-class Pagina_Buscar(tk.Frame):
+class Pagina_Atualizar(tk.Frame):
     def __init__(self,gui_root):
         '''Inicia o Frame de Cadastro de prestadores'''
-        super().__init__(master=gui_root.container,bg='lightgreen')
+        super().__init__(master=gui_root.container,bg='lightpink')
         
         # Coloca o root como atributo
         self.gui_root = gui_root
@@ -11,15 +11,13 @@ class Pagina_Buscar(tk.Frame):
         # Colocar título do GUI
         tk.Label(self,
         text="Busca de Prestador",
-        bg="lightgreen",
+        bg="lightpink",
         font=("Verdana",30)
         ).pack()
 
         # Coloca o botão de voltar ao menu principal
         self.Botao_Voltar()
 
-        # Chama as funções de Criação de preenchimento dos dados
-        
         # Coloca o Frame em segundo plano também
         self.grid(row=0,column=0,sticky="nsew")
     

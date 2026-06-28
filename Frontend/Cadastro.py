@@ -1,6 +1,6 @@
 import tkinter as tk
 
-class Cadastro(tk.Frame):
+class Pagina_Cadastro(tk.Frame):
     '''Classe do frame de cadastro de prestadores'''
     def __init__(self,gui_root):
         '''Inicia o Frame de Cadastro de prestadores'''
@@ -13,11 +13,14 @@ class Cadastro(tk.Frame):
         tk.Label(self,
         text="Cadastro de Prestador",
         bg="lightblue",
-        font=("Verdana",20)
+        font=("Verdana",30)
         ).pack()
 
         # Colocar Botão de Voltar
         self.Botao_Voltar()
+
+        # Instancia Mensagem de erro de cadastramento
+        self.erro = False
 
         # Chama as funções de Criação de preenchimento dos dados
         self.Colocar_Entradas_Dados()
@@ -109,11 +112,82 @@ class Cadastro(tk.Frame):
                   command=lambda:self.Salvamento_Dados()).pack()
 
         # Posiciona o frame no final do frame de dados
-        self.frame_botao_salvamento.place(relx=0.5,rely=0.95,anchor='s')
+        self.frame_botao_salvamento.place(relx=0.5,rely=0.85,anchor='n')
 
+    def Validar_Dados(self):
+        # Limpa Mensagens Anteriores:
+        if self.erro:
+            self.mensagem_erro.destroy()
 
+        # Verificações do Nome:
+        if not self.nome.get():
+            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                            text="Campo Nome é Obrigatório!",
+                            width=200
+                            )
+            return False
+        elif len(self.nome.get()) < 3:
+            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                            text="Nome Muito Curto!",
+                            width=200
+                            )
+            return False
+
+        # Verificações do cpf
+        if not self.cpf_cnpj.get():
+            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                            text="Campo CPF/CNPJ é Obrigatório!",
+                            width=200
+                            )
+            return False
+        if not len(self.cpf_cnpj.get()) == 11 or len(self.cpf_cnpj.get()) == 14:
+            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                            text="Numero Não Corresponde a CPF ou CNPJ!",
+                            width=200
+                            )
+            return False
+        if not self.cpf_cnpj.get().isdigit():
+            self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                                            text="Digite Somente Numeros!",
+                                            width=200
+                                            )
+            return False
+        # Verificação do digito verificador cpf
+        if len(self.cpf_cnpj.get()) == 11:
+            # Calculo do digito 1:
+            peso = 10   # peso da multiplicacao
+            somad1 = 0  # Soma acumada referente ao digito d1
+
+            # Soma referente ao d1
+            for i in range(1,9):
+                somad1 = int(self.cpf_cnpj.get()[i])*peso + somad1
+                peso = peso - 1
+            
+            # Digito verificador 1:
+            # calcula resto do digito por 11:
+            resto_d1 = somad1 % 11
+            # Se inferior a 2 é 0, caso contrário, é 11 - d1
+            if(resto_d1 < 2):
+                d1 = 0
+            else:
+                d1 = 11 - resto_d1
+
+            # Verificação da correspondencia:
+            if d1 != int(self.cpf_cnpj.get()[10]):
+                self.mensagem_erro = tk.Message(self.frame_botao_salvamento,
+                                            text=f"CPF inválido!Digito Verificador {d1}",
+                                            width=200
+                                            )
+                return False
+        
+        
     def Salvamento_Dados(self):
         '''Função de Guardar os dados no banco de dados gerado'''
-        # Verifica se nenhum dado está faltando:
-        #if(self.nome == ""):
+        # Verifica se não há nenhum dado errado:
+        if not self.Validar_Dados():
+            self.erro = True
+            self.mensagem_erro.pack()
+            return False
+            
+
 
