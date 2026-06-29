@@ -31,8 +31,8 @@ class Prestador(object):
         banco_obj = Banco()
         try:
             c = banco_obj.conexao.cursor()
-            c.execute('''insert into prestadores (id, nome, cpf_cnpj, data_nascimento, rua, numero, complemento, bairro, cidade, uf, cep) 
-                       value (?,?,?,?,?,?,?,?,?,?)''', self)
+            c.execute('''insert into prestadores (id, nome, cpf_cnpj, data_nascimento, rua, numero, complemento, bairro, cidade, uf, cep,contato) 
+                       value (?,?,?,?,?,?,?,?,?,?,?)''', self)
             banco_obj.conexao.commit()
             c.close()
             return "prestador cadastrada com sucesso!"
@@ -44,7 +44,7 @@ class Prestador(object):
         banco_obj = Banco()
         try:
             c = banco_obj.conexao.cursor()
-            c.execute('''update prestadores set (id, nome, cpf_cnpj, data_nascimento, rua, numero, complemento, bairro, cidade, uf, cep) 
+            c.execute('''update prestadores set (id, nome, cpf_cnpj, data_nascimento, rua, numero, complemento, bairro, cidade, uf, cep,contato) 
                        value (?,?,?,?,?,?,?,?,?,?)''', self)
             banco_obj.conexao.commit()
             c.close()

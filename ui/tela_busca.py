@@ -69,7 +69,7 @@ class Pagina_Buscar(tk.Frame):
 
             # Instancia resultados da pesquisa:
             self.frame_resultados_pesquisa =self.resultados_pesquisa(self)
-            
+
             # Posiciona o frame no centro da pagina de busca:
             self.place(relx=0.5,rely=0.2,anchor="n",height=500)
         
@@ -140,115 +140,126 @@ class Pagina_Buscar(tk.Frame):
                 # Dispõe os resultados logo abaixo dos seus campos
 
                 # Posiciona o frame
-                self.place(relx=0.5,rely=0.3,anchor='n')
-            
+                self.place(relx=0.1,rely=0.35,anchor='n')
+
             def campos_dados_prestador(self):
                 '''Posiciona os campos dos dados do prestador'''
-                self.label_nome = tk.Label(self, text="Nome", width=15, font=("Arial", 10))
+                self.label_nome = tk.Label(self, text="Nome", width=10, font=("Arial", 10))
                 self.label_nome.grid(row=0, column=0, padx=5, pady=5)
-                
-                self.label_cpf_cnpj = tk.Label(self, text="CPF/CNPJ", width=15, font=("Arial", 10))
+
+                self.label_cpf_cnpj = tk.Label(self, text="CPF/CNPJ", width=10, font=("Arial", 10))
                 self.label_cpf_cnpj.grid(row=1, column=0, padx=5, pady=5)
 
-                self.label_data_nascimento = tk.Label(self, text="Data Nascimento", width=15, font=("Arial", 10))
+                self.label_data_nascimento = tk.Label(self, text="Nascimento", width=10, font=("Arial", 10))
                 self.label_data_nascimento.grid(row=2, column=0, padx=5, pady=5)
 
-                self.label_rua = tk.Label(self, text="Rua", width=15, font=("Arial", 10))
+                self.label_rua = tk.Label(self, text="Rua", width=10, font=("Arial", 10))
                 self.label_rua.grid(row=3, column=0, padx=5, pady=5)
 
-                self.label_numero = tk.Label(self, text="Número", width=15, font=("Arial", 10))
+                self.label_numero = tk.Label(self, text="Número", width=10, font=("Arial", 10))
                 self.label_numero.grid(row=4, column=0, padx=5, pady=5)
 
-                self.label_complemento = tk.Label(self, text="Complemento", width=15, font=("Arial", 10))
+                self.label_complemento = tk.Label(self, text="Compl.", width=10, font=("Arial", 10))
                 self.label_complemento.grid(row=5, column=0, padx=5, pady=5)
 
-                self.label_bairro = tk.Label(self, text="Bairro", width=15, font=("Arial", 10))
+                self.label_bairro = tk.Label(self, text="Bairro", width=10, font=("Arial", 10))
                 self.label_bairro.grid(row=6, column=0, padx=5, pady=5)
 
-                self.label_cidade = tk.Label(self, text="Cidade", width=15, font=("Arial", 10))
+                self.label_cidade = tk.Label(self, text="Cidade", width=10, font=("Arial", 10))
                 self.label_cidade.grid(row=7, column=0, padx=5, pady=5)
 
-                self.label_uf = tk.Label(self, text="UF", width=15, font=("Arial", 10))
+                self.label_uf = tk.Label(self, text="UF", width=10, font=("Arial", 10))
                 self.label_uf.grid(row=8, column=0, padx=5, pady=5)
 
-                self.label_cep = tk.Label(self, text="CEP", width=15, font=("Arial", 10))
+                self.label_cep = tk.Label(self, text="CEP", width=10, font=("Arial", 10))
                 self.label_cep.grid(row=9, column=0, padx=5, pady=5)
 
-                self.label_contato = tk.Label(self, text="Contato", width=15, font=("Arial", 10))
+                self.label_contato = tk.Label(self, text="Contato", width=10, font=("Arial", 10))
                 self.label_contato.grid(row=10, column=0, padx=5, pady=5)
 
-            #def resultados_pesquisa_prestador(self):
+            def frame_resultados_pesquisa(self):
+                    '''Coloca os resultados da pesquisa'''
+                    self.resultado_nome = tk.Label(self, text=self.resultados_pesquisa_prestador[0], width=30, font=("Arial", 10))
+                    self.resultado_nome.grid(row=0, column=1, padx=5, pady=5)
 
+                    self.resultado_cpf_cnpj = tk.Label(self, text=self.resultados_pesquisa_prestador[1], width=30, font=("Arial", 10))
+                    self.resultado_cpf_cnpj.grid(row=1, column=1, padx=5, pady=5)
 
-        def pesquisa(self):
-            '''função de dispor os resultados da pesquisa dos dados'''
-            # Apaga mensagem anterior, se houver:
-            if self.mensagem[0]:
-                self.mensagem[1].destroy()
+                    self.resultado_data_nascimento = tk.Label(self, text=self.resultados_pesquisa_prestador[2], width=30, font=("Arial", 10))
+                    self.resultado_data_nascimento.grid(row=2, column=1, padx=5, pady=5)
 
-            # Novamente validar nome e cpf:
-            validacoes = [validadores.validar_nome(self.nome.get()),
-                          validadores.validar_cpf_cnpj(self.cpf_cnpj.get())
-                          ]
-            # Verifica qual tem maior tamanho para tentar:
-            if len(self.nome.get()) > len(self.cpf_cnpj.get()):
-                if validacoes[0]:
-                    # Tenta fazer busca no banco de dados mediante dado validado:
-                    try:
-                        # Tenta encontrar o prestador pelo nome:
-                        pesquisa = busca.buscar_prestadores_nome(self.nome.get())
-                        if pesquisa:
-                            self.prestador_pesquisado = pesquisa
-                        else:
-                            self.mensagem = [True, tk.Message(self.frame_botao_pesquisa,
-                                     text="Nenhum Prestador Encontrado!",
-                                     width=300)
-                                    ]
-                        self.mensagem[1].pack()
-                    except Exception:
-                        self.mensagem = [True, tk.Message(self.frame_botao_pesquisa,
-                                     text="Ocorreu um erro na Pesquisa!",
-                                     width=300)
-                                    ]
-                        self.mensagem[1].pack()
-                else:
-                    [ok,mensagem_erro] = validacoes[0]
-                    self.mensagem = [True, tk.Message(self.frame_botao_pesquisa,
-                                    text=mensagem_erro,
-                                    width=300)
-                                    ]
-                    self.mensagem[1].pack()
-            else:
-                # tenta pesquisar pelo cpf/cnpj:
-                if validacoes[1]:
-                    # Tenta fazer busca no banco de dados mediante dado validado:
-                    try:
-                        # Tenta encontrar o prestador pelo nome:
-                        pesquisa = busca.buscar_prestadores_nome(self.cpf_cnpj.get())
-                        if pesquisa:
-                            self.prestador_pesquisado = pesquisa
-                        else:
-                            self.mensagem = [True, tk.Message(self.frame_botao_pesquisa,
-                                     text="Nenhum Prestador Encontrado!",
-                                     width=300)
-                                    ]
-                        self.mensagem[1].pack()
-                    except Exception:
-                        self.mensagem = [True, tk.Message(self.frame_botao_pesquisa,
-                                     text="Ocorreu um erro na Pesquisa!",
-                                     width=300)
-                                    ]
-                        self.mensagem[1].pack()
-                else:
-                    [ok,mensagem_erro] = validacoes[1]
-                    self.mensagem = [True, tk.Message(self.frame_botao_pesquisa,
-                                     text=mensagem_erro,
-                                     width=300)
-                                    ]
-                    self.mensagem[1].pack()
+                    self.resultado_rua = tk.Label(self, text=self.resultados_pesquisa_prestador[3], width=30, font=("Arial", 10))
+                    self.resultado_rua.grid(row=3, column=1, padx=5, pady=5)
 
-                    
+                    self.resultado_numero = tk.Label(self, text=self.resultados_pesquisa_prestador[4], width=30, font=("Arial", 10))
+                    self.resultado_numero.grid(row=4, column=1, padx=5, pady=5)
+
+                    self.resultado_complemento = tk.Label(self, text=self.resultados_pesquisa_prestador[5], width=30, font=("Arial", 10))
+                    self.resultado_complemento.grid(row=5, column=1, padx=5, pady=5)
+
+                    self.resultado_bairro = tk.Label(self, text=self.resultados_pesquisa_prestador[6], width=30, font=("Arial", 10))
+                    self.resultado_bairro.grid(row=6, column=1, padx=5, pady=5)
+
+                    self.resultado_cidade = tk.Label(self, text=self.resultados_pesquisa_prestador[7], width=30, font=("Arial", 10))
+                    self.resultado_cidade.grid(row=7, column=1, padx=5, pady=5)
+
+                    self.resultado_uf = tk.Label(self, text=self.resultados_pesquisa_prestador[8], width=30, font=("Arial", 10))
+                    self.resultado_uf.grid(row=8, column=1, padx=5, pady=5)
+
+                    self.resultado_cep = tk.Label(self, text=self.resultados_pesquisa_prestador[9], width=30, font=("Arial", 10))
+                    self.resultado_cep.grid(row=9, column=1, padx=5, pady=5)
+
+                    self.resultado_contato = tk.Label(self, text=self.resultados_pesquisa_prestador[10], width=30, font=("Arial", 10))
+                    self.resultado_contato.grid(row=10, column=1, padx=5, pady=5)
+
+            def _exibir_mensagem(self, texto_msg):
+                if hasattr(self, 'mensagem') and self.mensagem and self.mensagem[0]:
+                    self.mensagem[1].destroy()
                 
-
+                msg_widget = tk.Message(
+                    self.frame_botao_pesquisa,
+                    text=texto_msg,
+                    width=300
+                )
+                msg_widget.pack()
             
-        
+                self.mensagem = [True, msg_widget]
+
+            def pesquisa(self):
+                pagina = self.pagina_mae  # a barra_pesquisa, onde estão os campos e a mensagem
+
+                str_nome = pagina.nome.get().strip()
+                str_cpf = pagina.cpf_cnpj.get().strip()
+
+                if not str_nome and not str_cpf:
+                    self._exibir_mensagem("Preencha o Nome ou o CPF para pesquisar!")
+                    return
+
+                # Se há nome preenchido, busca por nome; caso contrário, por CPF/CNPJ
+                if str_nome:
+                    status_ok, msg_erro = validadores.validar_nome(str_nome)
+                    if not status_ok:
+                        self._exibir_mensagem(msg_erro)
+                        return
+                    try:
+                        resultado = busca.buscar_prestadores_nome(str_nome)
+                    except Exception as e:
+                        self._exibir_mensagem(f"Ocorreu um erro no banco: {e}")
+                        return
+                else:
+                    status_ok, msg_erro = validadores.validar_cpf_cnpj(str_cpf)
+                    if not status_ok:
+                        self._exibir_mensagem(msg_erro)
+                        return
+                    try:
+                        resultado = busca.buscar_prestadores_cpf_cnpj(str_cpf)
+                    except Exception as e:
+                        self._exibir_mensagem(f"Ocorreu um erro no banco: {e}")
+                    return
+
+                if resultado:
+                    self.resultados_pesquisa_prestador = resultado
+                    self.frame_resultados_pesquisa()  # renderiza os dados nos labels
+                    self._exibir_mensagem("Prestador encontrado com sucesso!")
+                else:
+                    self._exibir_mensagem("Nenhum Prestador encontrado!")
