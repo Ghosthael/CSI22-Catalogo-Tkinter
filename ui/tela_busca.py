@@ -68,7 +68,7 @@ class Pagina_Buscar(tk.Frame):
             self.botao_pesquisa()
 
             # Instancia resultados da pesquisa:
-            self.frame_resultados_pesquisa =self.resultados_pesquisa(self)
+            self.frame_resultados_pesquisa = self.resultados_pesquisa(self)
 
             # Posiciona o frame no centro da pagina de busca:
             self.place(relx=0.5,rely=0.2,anchor="n",height=500)
@@ -118,7 +118,7 @@ class Pagina_Buscar(tk.Frame):
                   font=("Arial",14),
                   width=10,
                   height=1,
-                  command=lambda:self.pesquisa()).pack()
+                  command=lambda:self.resultados_pesquisa.pesquisa()).pack()
 
             # Posiciona o frame no final do frame de dados
             self.frame_botao_pesquisa.place(relx=0.5,rely=0.21,anchor='n')
